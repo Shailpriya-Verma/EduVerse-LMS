@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Create Quiz";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<link href="~/Content/css/CommonCssForForm.css" rel="stylesheet" />
+<div class="form-container">
+    <h2><ion-icon name="help-circle" style="color:black;"></ion-icon> Create Quiz</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+    else
+    {
+        @*<div class="form-group">
+            <label>Selected Course</label>
+            <p><strong>@ViewBag.CourseId</strong></p>
+        </div>*@
+
+        <div class="form-group">
+            <label>Uploaded File Preview</label>
+            @if (ViewBag.FileType == ".pdf")
+            {
+                <iframe src="@Url.Content(ViewBag.FilePath)" width="100%" height="400px"></iframe>
+            }
+            else if (ViewBag.FileType == ".jpg" || ViewBag.FileType == ".jpeg" || ViewBag.FileType == ".png")
+            {
+                <img src="@Url.Content(ViewBag.FilePath)" style="width:100%;max-height:400px;border-radius:8px;" />
+            }
+            else if (ViewBag.FileType == ".mp4")
+            {
+                <video width="100%" height="400" controls>
+                    <source src="@Url.Content(ViewBag.FilePath)" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            }
+            else
+            {
+                <p>Unsupported file format.</p>
+            }
+        </div>
+
+        <div class="form-group">
+            <button id="generateQuizBtn" class="btn btn-primary">Generate Quiz Automatically</button>
+        </div>
+
+        <div id="quizContainer" class="form-group" style="display:none; margin-top:20px;">
+            <h3>Generated Quiz Preview</h3>
+            <div id="quizContent">
+                <p>Your quiz will appear here once generated...</p>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+$("#generateQuizBtn").click(function () {
+    $.ajax({
+        url: '/Quiz/GenerateQuiz',
+        type: 'POST',
+        data: {
+            CourseId: '@ViewBag.CourseId',
+            FilePath: '@ViewBag.FilePath',
+            FileType: '@ViewBag.FileType'
+        },
+        success: function (res) {
+            if (res.success) {
+                let html = "<h3>Generated Quiz</h3>";
+                res.quiz.forEach((q, i) => {
+                    html += `<div class='question'><strong>Q${i + 1}:</strong> ${q.Question}<br>
+                        A) ${q.OptionA}<br>
+                        B) ${q.OptionB}<br>
+                        C) ${q.OptionC}<br>
+                        D) ${q.OptionD}<br><br></div>`;
+                });
+                $("#quizContainer").html(html).show();
+            } else {
+                alert(res.message);
+            }
+        },
+        error: function () {
+            alert("Error while generating quiz.");
+        }
+    });
+});
+    });
+</script>

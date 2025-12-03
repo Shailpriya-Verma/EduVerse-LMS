@@ -1,0 +1,70 @@
+﻿
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Assignment";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+
+<link href="~/Content/css/SubmitAssignment.css" rel="stylesheet" />
+<script src="~/Scripts/js/SubmitAssignment.js"></script>
+
+<div class="table-container">
+    <h2><ion-icon name="book" style="color:black;"></ion-icon>Assignments</h2>
+
+    <table cellpadding="10" cellspacing="0" class="border">
+        <thead>
+            <tr>
+                <th class="border">Sr.No.</th>
+                <th class="border">Title</th>
+                <th class="border">Description</th>
+                <th class="border">Due Date</th>
+                <th class="border">Created date</th>
+                <th class="border">Assignment</th>
+                <th class="border">Action</th>
+                <th class="border">Grade (10 points)</th>
+                <th class="border">Feedback</th>
+            </tr>
+        </thead>
+
+        <tbody id="assignmentBody">
+            <tr><td colspan="9" class="text-center">Loading...</td></tr>
+        </tbody>
+
+
+     
+    </table>
+
+
+
+
+
+        <!-- Modal Structure -->
+        <div id="assignmentModal" class="modal">
+            <div class="modal-content">
+                <h3>Upload Assignment</h3>
+                <form id="assignmentForm" enctype="multipart/form-data">
+                    <input type="hidden" id="AssessmentId" name="AssessmentId" />
+
+                    <div class="form-group">
+                        <label>Upload File (Image/PDF)</label>
+                        <input type="file" id="AssignmentFile" name="AssignmentFile" accept=".jpg,.jpeg,.png,.pdf" />
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" id="saveAssignment" class="btn-save">Save</button>
+                        <button type="button" id="cancelModal" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+</div>
+
+
+

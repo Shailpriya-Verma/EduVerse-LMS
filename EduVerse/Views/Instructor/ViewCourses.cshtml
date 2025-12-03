@@ -1,0 +1,68 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "ViewCourses";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<link href="~/Content/css/ViewCourses.css" rel="stylesheet" />
+
+
+<div class="table-container">
+    <h2><ion-icon name="book" style="color:black;"></ion-icon>Courses</h2>
+
+    <table cellpadding="10" cellspacing="0" class="border">
+        <thead>
+            <tr>
+                <th class="border">Sr.No.</th>
+                <th class="border">Course Title</th>
+                <th class="border">Course Description</th>
+                <th class="border">Price</th>
+                <th class="border">Enrolled Students</th>
+                <th class="border">Created Date</th>
+                <th class="border">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        i++;
+                        <tr data-courseid="@row["CourseId"]">
+                            <td class="border">@(i)</td>
+                            <td class="border">@row["Title"]</td>
+                            <td class="border">@row["Description"]</td>
+
+                            @if (row["Price"] == DBNull.Value)
+                            {
+                                <td class="border">Free</td>
+                            }
+                            else
+                            {
+                                <td class="border">@row["Price"]</td>
+                            }
+
+                            <td class="border">@row["EnrolledCount"]</td>
+                            <td class="border">@row["CreatedAt"]</td>
+                            <td class="border">
+                                @*<button class="create-btn">Edit</button>
+            <button class="create-btn">Delete</button>*@
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center">No courses found.</td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+</div>
+

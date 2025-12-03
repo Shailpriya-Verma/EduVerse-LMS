@@ -1,0 +1,136 @@
+﻿
+.course-section {
+    background-color: #f9f9f9;
+    padding: 40px;
+    font-family: 'Segoe UI', sans-serif;
+    color: black;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .section-title h2 {
+        font-size: 36px;
+        color: #06BBCC;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+    }
+
+    .section-title p {
+        font-size: 18px;
+        color: #222;
+        font-style: italic;
+    }
+
+.cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+.course-card {
+    width: 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+    .course-card:hover {
+        transform: translateY(-8px);
+    }
+
+.course-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.course-content {
+    padding: 15px;
+}
+
+.course-price {
+    color: #06BBCC;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.course-title {
+    font-size: 20px;
+    color: black;
+    margin: 5px 0;
+}
+
+.course-instructor,
+.course-duration {
+    font-size: 14px;
+    color: #555;
+}
+
+.course-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.read-more {
+    background-color: white;
+    color: #06BBCC;
+    border: 1px solid #06BBCC;
+}
+
+    .read-more:hover {
+        background-color: #06BBCC;
+        color: white;
+    }
+
+.enroll {
+    background-color: #06BBCC;
+    color: white;
+    border: none;
+}
+
+    .enroll:hover {
+        background-color: black;
+    }
+
+@media (max-width: 992px) {
+    .cards-grid {
+        justify-content: center;
+    }
+}
+@media (max-width: 768px) {
+    .cards-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .course-card {
+        width: 90%;
+    }
+
+    .section-title h2 {
+        font-size: 28px;
+    }
+
+    .section-title p {
+        font-size: 16px;
+    }
+}

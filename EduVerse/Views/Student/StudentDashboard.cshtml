@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "StudentDashboard";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+@{
+    var fullName = Session["FullName"] as string;
+    var userId = Session["UserId"];
+    var roleId = Session["RoleId"];
+}
+
+
+<style>
+    a {
+        text-decoration:none;
+    }
+</style>
+
+
+@{
+    if (Session["RoleId"] != null && Session["RoleId"].ToString() == "2")
+    {
+    <div class="cardBox">
+
+        <a href="/Student/Courses">
+            <div class="card">
+
+                <div>
+                    @*<div class="numbers">0</div>*@
+                    <div class="cardName">Courses</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </div>
+            </div>
+        </a>
+
+
+        <a href="#">
+            <div class="card">
+
+                <div>
+                    <div class="numbers">0</div>
+                    <div class="cardName">Enrolled Courses</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="cart-outline"></ion-icon>
+                </div>
+            </div>
+        </a>
+
+
+
+        <div class="card">
+            <div>
+                <div class="numbers">0</div>
+                <div class="cardName">Assignment</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="book-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="card">
+            <div>
+                <div class="numbers">0</div>
+                <div class="cardName">Communication</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="card">
+            <div>
+                @*<div class="numbers">$7,842</div>*@
+                <div class="cardName">Report</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="cash-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="card">
+            <div>
+                @*<div class="numbers">$7,842</div>*@
+                <div class="cardName">Update Profile</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="person-circle-outline"></ion-icon>
+            </div>
+        </div>
+
+
+    </div>
+    }
+}
+
+
+
+@{
+    if (Session["RoleId"] != null && Session["RoleId"].ToString() == "3")
+    {
+    <div class="cardBox">
+        <div class="card">
+            <div>
+                <div class="numbers">0</div>
+                <div class="cardName">Create Courses</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="eye-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="card">
+            <div>
+                <div class="numbers">0</div>
+                <div class="cardName">Create Assignment</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="cart-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="card">
+            <div>
+                <div class="numbers">0</div>
+                <div class="cardName">Communication</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="card">
+            <div>
+                @*<div class="numbers">$7,842</div>*@
+                <div class="cardName">Report</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="cash-outline"></ion-icon>
+            </div>
+        </div>
+        <div class="card">
+            <div>
+                @*<div class="numbers">$7,842</div>*@
+                <div class="cardName">Update Profile</div>
+            </div>
+
+            <div class="iconBx">
+                <ion-icon name="cash-outline"></ion-icon>
+            </div>
+        </div>
+    </div>
+    }
+}
+

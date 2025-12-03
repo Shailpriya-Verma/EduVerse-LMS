@@ -1,0 +1,105 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Assignment";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+
+<link href="~/Content/css/CreateAssignment.css" rel="stylesheet" />
+<script src="~/Scripts/js/CreateAssignment.js"></script>
+
+<div class="table-container">
+    <h2><ion-icon name="book" style="color:black;"></ion-icon> Create Assignments</h2>
+
+    <table cellpadding="10" cellspacing="0" class="border">
+        <thead>
+            <tr>
+                <th class="border">Sr.No.</th>
+                <th class="border">Course Name</th>
+                <th class="border">Course Desc</th>
+                @*<th class="border">Enrolled Students</th>*@
+                <th class="border">Created Date</th>
+                <th class="border">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        i++;
+                            <tr data-courseid="@row["CourseId"]">
+                                <td class="border">@i</td>
+                                <td class="border">@row["Title"]</td>
+                                <td class="border">@row["Description"]</td>
+                                <td class="border">@row["CreatedAt"]</td>
+                                <td class="border">
+                                    <button class="create-btn">Create Assignment</button>
+                                </td>
+                            </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center">No courses found.</td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+    <!-- Modal Structure -->
+    <div id="assignmentModal" class="modal">
+        <div class="modal-content">
+            <h3>Create Assignment</h3>
+            <form id="assignmentForm" enctype="multipart/form-data">
+                <input type="hidden" id="CourseId" name="CourseId" />
+
+                <div class="form-group">
+                    <label>Assignment Title</label>
+                    <input type="text" id="Title" name="Title" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="Description" name="Description" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="DueDate" name="DueDate" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Upload File (Image/PDF)</label>
+                    <input type="file" id="AssignmentFile" name="AssignmentFile" accept=".jpg,.jpeg,.png,.pdf" />
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="saveAssignment" class="btn-save">Save</button>
+                    <button type="button" id="cancelModal" class="btn-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
+

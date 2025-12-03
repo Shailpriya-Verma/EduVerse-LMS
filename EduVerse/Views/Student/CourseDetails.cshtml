@@ -1,0 +1,204 @@
+﻿@using System.Linq;
+
+@{
+    ViewBag.Title = "CourseDetails";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+@model EduVerse.Models.Allclasses.CoursesModel.GetAllCourseByStudentIdModel
+
+
+<script src="~/Scripts/js/jquery-3.2.1.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+<div class="course-details-container">
+    <div class="course-info">
+        <h1 class="course-title">@Model.Title</h1>
+        <p class="instructor"><strong>Instructor:</strong> @Model.InstructorName</p>
+        <p class="enrolled"><strong>Enrolled On:</strong> @Model.EnrolledOn.ToString("dd MMM yyyy")</p>
+        <p class="payment-status"><strong>Payment Status:</strong> @Model.PaymentStatus</p>
+        <hr />
+        <h3>Description</h3>
+        <p class="description">@Model.Description</p>
+    </div>
+
+
+
+    <!-- VIDEO MATERIALS -->
+    <button class="collapsible">🎥 Video Materials</button>
+    <div class="collapsible-content">
+
+        @if (!Model.Materials.Any(m => m.MaterialType.ToLower() == "video"))
+        {
+            <span> No Content</span>
+        }
+        else
+        {
+            foreach (var item in Model.Materials.Where(m => m.MaterialType.ToLower() == "video"))
+            {
+                <div class="material-card">
+                    <h4>@item.Title</h4>
+                    <video width="100%" height="400" controls>
+                        <source src="@item.FilePath" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <br><br>
+            }
+        }
+
+    </div>
+
+    <!-- PDF MATERIALS -->
+    <button class="collapsible">📄 PDF Materials</button>
+    <div class="collapsible-content">
+        @if (!Model.Materials.Any(m => m.MaterialType.ToLower() == "pdf"))
+        {
+            <span>No Content</span>
+        }
+        else
+        {
+            foreach (var item in Model.Materials.Where(m => m.MaterialType.ToLower() == "pdf"))
+            {
+                <div class="material-card">
+                    <h4>@item.Title</h4>
+                    <a href="@item.FilePath" target="_blank" class="btn btn-primary">View PDF</a>
+                </div>
+            }
+        }
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+<style>
+    body, h1, h3, p {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        color: #333;
+    }
+
+    .course-details-container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column; /* stack vertically */
+        gap: 30px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+
+    .course-info {
+        padding: 10px 20px;
+    }
+
+    .course-title {
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        color: #06BBCC;
+    }
+
+    .course-info p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+
+    .course-info hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 20px 0;
+    }
+
+    .course-info h3 {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #06BBCC;
+    }
+
+    .description {
+        font-size: 1.1rem;
+        color: #444;
+        line-height: 1.6;
+        white-space: pre-wrap;
+    }
+
+    .video-section {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+        .video-section video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+
+    /* Responsive is simpler here but can be added */
+    @@media (max-width: 600px) {
+        .course-details-container {
+            padding: 15px;
+            margin: 15px;
+        }
+
+        .course-title {
+            font-size: 1.6rem;
+        }
+    }
+
+
+
+
+
+
+
+    /*    For Multiple Videos /pdfs */
+
+    .collapsible {
+        background-color: #06BBCC;
+        color: white;
+        cursor: pointer;
+        padding: 14px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        font-size: 18px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+        .collapsible:hover {
+            background-color: #0390a4;
+        }
+
+    .collapsible-content {
+        padding: 10px 20px;
+        display: none;
+        overflow: hidden;
+        background-color: #f9f9f9;
+        border-left: 4px solid #06BBCC;
+        margin-bottom: 15px;
+        border-radius: 0 0 8px 8px;
+    }
+</style>
+
+
+<script>
+    $(document).ready(function () {
+        $('.collapsible').click(function () {
+            $(this).toggleClass("active");
+            $(this).next('.collapsible-content').slideToggle();
+        });
+    });
+</script>

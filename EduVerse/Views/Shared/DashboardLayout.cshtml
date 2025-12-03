@@ -1,0 +1,258 @@
+﻿@{
+    var fullName = Session["FullName"] as string;
+    var userId = Session["UserId"];
+    var roleId = Session["RoleId"];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <!-- ======= Styles ====== -->
+
+    <link href="~/Content/css/style3.css" rel="stylesheet" />
+
+    <script src="~/Scripts/js/jquery-3.2.1.min.js"></script>
+
+</head>
+
+<body>
+    <!-- =============== Navigation ================ -->
+    <div class="container">
+
+
+
+        <div class="navigation">
+
+
+            <ul>
+
+
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            @*<ion-icon name="logo-apple"></ion-icon>*@
+                            <ion-icon name="laptop-outline"></ion-icon>
+                        </span>
+                        <h2 class="title">EduVerse</h2>
+
+                    </a>
+
+
+                </li>
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+
+                @{
+                    if (Session["RoleId"] != null && Session["RoleId"].ToString() == "2")
+                    {
+                        <li>
+                            <a href="~/Student/Courses">
+                                <span class="icon">
+                                    <ion-icon name="people-outline"></ion-icon>
+                                </span>
+                                <span class="title">Courses</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Student/EnrolledCourses">
+                                <span class="icon">
+                                    <ion-icon name="people-outline"></ion-icon>
+                                </span>
+                                <span class="title">Enrolled Courses</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <ion-icon name="chatbubble-outline"></ion-icon>
+                                </span>
+                                <span class="title">Communication</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="~/Student/Assignment">
+                                <span class="icon">
+                                    <ion-icon name="help-outline"></ion-icon>
+                                </span>
+                                <span class="title">Assignment</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <ion-icon name="settings-outline"></ion-icon>
+                                </span>
+                                <span class="title">Performance</span>
+                            </a>
+                        </li>
+                    }
+                }
+
+
+
+
+                @{
+                    if (Session["RoleId"] != null && Session["RoleId"].ToString() == "3")
+                    {
+                        <li>
+                            <a href="~/Instructor/CreateCourse">
+                                <span class="icon">
+                                    <ion-icon name="people-outline"></ion-icon>
+                                </span>
+                                <span class="title">Create Courses</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <ion-icon name="chatbubble-outline"></ion-icon>
+                                </span>
+                                <span class="title">Communication</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="~/Instructor/Assignment">
+                                <span class="icon">
+                                    <ion-icon name="help-outline"></ion-icon>
+                                </span>
+                                <span class="title">Create Assignment</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="~/Instructor/Submissions">
+                                <span class="icon">
+                                    <ion-icon name="help-outline"></ion-icon>
+                                </span>
+                                <span class="title">Submissions</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Quiz/UploadFile">
+                                <span class="icon">
+                                    <ion-icon name="help-outline"></ion-icon>
+                                </span>
+                                <span class="title">Create Quiz</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Instructor//ViewCourses">
+                                <span class="icon">
+                                    <ion-icon name="settings-outline"></ion-icon>
+                                </span>
+                                <span class="title">View Courses</span>
+                            </a>
+                        </li>
+                    }
+                }
+
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Update Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="~/Account/Logout">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Log Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- ========================= Main ==================== -->
+
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <center>
+                    <div class="search">
+                        @*<label>
+                                <input type="text" placeholder="Search here">
+                                <ion-icon name="search-outline"></ion-icon>
+                            </label>*@
+
+                        <h2>Welcome,@fullName</h2>
+                    </div>
+                </center>
+
+
+                <div class="user">
+                    @*<img src="/Content/img/customer01.jpg" alt="">*@
+                </div>
+
+                <div id="google_translate_element"></div>
+
+            </div>
+
+            <!-- ======================= Cards ================== -->
+
+
+
+            @RenderBody()
+
+            <!-- ================ Order Details List ================= -->
+        </div>
+
+
+    </div>
+
+    <!-- =========== Scripts =========  -->
+
+    <script src="~/Scripts/js/main3.js"></script>
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+
+    @RenderSection("Scripts", required: false)
+
+
+
+
+    <!-- For Google Translation Start -->
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        }
+    </script>
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+    <!-- For Google Translation End -->
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    
+    @*<meta name="google-signin-client_id" content="1029790467333-q3ts5diolji6l0oipkd2j09cjt4000si.apps.googleusercontent.com">*@
+    
+    <title>RegisterInstructor</title>
+
+    <!-- Favicon -->
+    <link href="~/Content/img/favicon.ico" rel="shortcut icon" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,500,500i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/css/owl.carousel.css" />
+    <link rel="stylesheet" href="~/Content/css/style.css" />
+    <link href="~/Content/css/sweetalert2.min.css" rel="stylesheet" />
+
+
+    <script src="~/Scripts/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/js/ApiConnection.js"></script>
+    <script src="~/Scripts/js/Register.js"></script>
+    <script src="~/Scripts/js/sweetalert2.min.js"></script>
+    <style>
+        .site-btn {
+            min-width: 280px;
+        }
+        
+    </style>
+
+
+
+</head>
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <section class="signup-section spad">
+        <div class="signup-bg set-bg " data-setbg="/Content/img/teaching.jpg"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="signup-warp">
+                        <div class="section-title text-white text-left">
+                            <h2>Register To Teach</h2>
+                            @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>*@
+
+                        </div>
+                        <!-- signup form -->
+                        <form class="signup-form" method="post">
+                            <input type="text" hidden id="roleId" name="roleId" value="3">
+                            <input type="text" id="name" name="name" placeholder="Enter Your Full Name">
+                            <input type="text" id="email" name="email" placeholder="Enter Your E-mail">
+                            <input type="password" id="password" name="password" placeholder="Enter Password">
+                            <input type="password" id="cPassword" name="cPassword" placeholder="Enter Confirm Password">
+                            <center>
+                                <input type="button" value="Register" class="site-btn bg-color" id="btn">
+                                @*<button class="site-btn">Gmail</button>*@
+
+                                @*<br><br>
+            <div id="my-signin2" class="mt-1"></div>*@
+
+                                <p>Already have an account ? <a href="~/Account/Login">LogIn</a></p>
+
+                            </center>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    @*<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>*@
+
+    <!-- Google Login Design End -->
+    <!--====== Javascripts & Jquery ======-->
+
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/js/mixitup.min.js"></script>
+    <script src="~/Scripts/js/circle-progress.min.js"></script>
+    <script src="~/Scripts/js/owl.carousel.min.js"></script>
+    <script src="~/Scripts/js/main.js"></script>
+
+
+</body>
+</html>

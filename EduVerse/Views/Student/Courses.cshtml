@@ -1,0 +1,204 @@
+﻿@model List<EduVerse.Models.Allclasses.CoursesModel.GetAllCourseModel>
+
+@{
+    ViewBag.Title = "Courses";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+<link href="~/Content/css/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/Content/css/Courses.css" rel="stylesheet" />
+<script src="~/Scripts/js/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/js/sweetalert2.min.js"></script>
+
+@*for razorpay*@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<div class="course-section">
+    <div class="section-title">
+        <h2>Courses</h2>
+        <p>Explore Our Available Courses</p>
+    </div>
+
+    <div class="cards-grid">
+        @foreach (var course in Model)
+        {
+            <div class="course-card">
+                <img src="@course.ThumbnailPath" alt="Course Thumbnail" class="course-image" />
+                <div class="course-content">
+                    <p class="course-price">@(course.IsPaid ? $"₹{course.Price:F2}" : "Free")</p>
+                    <h3 class="course-title">@course.Title</h3>
+                    <p class="course-instructor">@course.InstructorName</p>
+                    <p class="course-duration">1.49 Hrs</p>
+                    <div class="course-buttons">
+                        <a href="#" class="btn read-more">Read More</a>
+                        <a href="javascript:void(0);" class="btn enroll" data-courseid="@course.CourseId" data-amount="@(course.IsPaid ? course.Price : 0)">Enroll Now</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('.enroll').click(function () {
+            var courseId = $(this).data('courseid');
+            var amount = $(this).data('amount');
+            var title = $(this).data('title');
+            var isPaid = amount > 0;
+
+            var confirmEnroll = confirm(isPaid ?
+                "This is a paid course. Do you want to enroll?" :
+                "Do you want to enroll in this course?");
+
+            if (!confirmEnroll) return;
+
+            $.ajax({
+                url: '/Student/EnrollCourse',
+                type: 'POST',
+                data: {
+                    courseId: courseId,
+                    isPaid: isPaid,
+                    amount: amount
+                },
+                success: function (response) {
+                    if (response.success) {
+                        if (isPaid && response.res === 1) {
+                            // Razorpay Checkout
+                            var options = {
+                                "key": "rzp_test_MlCdj8h0dVktaf", // Replace with live key in production
+                                "amount": amount * 100, // in paise
+                                "currency": "INR",
+                                "name": "EduVerse",
+                                "description": "Enroll for " + title,
+                                "handler": function (rzpResponse) {
+                                    $.ajax({
+                                        url: '/Student/VerifyPayment',
+                                        type: 'POST',
+                                        data: {
+                                            transactionId: response.transactionid,
+                                            courseId: courseId
+                                        },
+                                        success: function (verifyRes) {
+                                            alert("Payment successful and verified!");
+                                            location.reload();
+                                        },
+                                        error: function () {
+                                            alert("Payment succeeded but server verification failed.");
+                                        }
+                                    });
+                                },
+                                "prefill": {
+                                    "name": "", // Optionally prefill student name
+                                    "email": "" // Optionally prefill student email
+                                },
+                                "theme": {
+                                    "color": "#06BBCC"
+                                }
+                            };
+
+                            var rzp = new Razorpay(options);
+                            rzp.open();
+                        } else if (response.res === -1) {
+                            alert("You are already enrolled in this course.");
+                        } else {
+                            alert(response.message); // For free courses
+                            location.reload();
+                        }
+                    } else {
+                        alert("Enrollment failed: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("Server error. Please try again.");
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+@*<script>
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+            $('.enroll').click(function () {
+                var courseId = $(this).data('courseid');
+                var amount = $(this).data('amount');
+                var isPaid = amount > 0;
+
+                var confirmEnroll = confirm(isPaid ?
+                    "This is a paid course. Do you want to enroll?" :
+                    "Do you want to enroll in this course?");
+
+                if (!confirmEnroll) return;
+
+                $.ajax({
+                    url: '/Student/EnrollCourse',
+                    type: 'POST',
+                    data: {
+                        courseId: courseId,
+                        isPaid: isPaid,
+                        amount: amount
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            if (isPaid && response.res === 1) {
+                                // Razorpay options
+                                var options = {
+                                    "key": "rzp_test_MlCdj8h0dVktaf", // Replace with your Razorpay key
+                                    "amount": amount * 100, // Amount in paise
+                                    "currency": "INR",
+                                    "name": "EduVerse",
+                                    "description": "Course Enrollment",
+                                    "handler": function (rzpResponse) {
+                                        // Send payment confirmation to server
+                                        $.ajax({
+                                            url: '/Student/VerifyPayment',
+                                            type: 'POST',
+                                            data: {
+                                                transactionId: response.transactionId,
+                                                //razorpay_payment_id: rzpResponse.razorpay_payment_id,
+                                                courseId: courseId
+                                            },
+                                            success: function (verifyRes) {
+                                                alert("Payment successful and verified!");
+                                            },
+                                            error: function () {
+                                                alert("Payment succeeded but server verification failed.");
+                                            }
+                                        });
+                                    }
+                                };
+                                var rzp = new Razorpay(options);
+                                rzp.open();
+                            } else if (response.res === -1) {
+                                alert("You are already enrolled in this course.");
+                            } else {
+                                alert(response.message); // Free course enrolled
+                            }
+                        } else {
+                            alert("Enrollment failed: " + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Server error. Please try again.");
+                    }
+                });
+            });
+        });
+
+
+
+    });
+
+</script>*@

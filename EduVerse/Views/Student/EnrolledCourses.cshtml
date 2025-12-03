@@ -1,0 +1,52 @@
+﻿@model List<EduVerse.Models.Allclasses.CoursesModel.GetAllCourseByStudentIdModel>
+
+@{
+    ViewBag.Title = "EnrolledCourses";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+<link href="~/Content/css/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/Content/css/Courses.css" rel="stylesheet" />
+<script src="~/Scripts/js/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/js/sweetalert2.min.js"></script>
+
+<div class="course-section">
+    <div class="section-title">
+        <h2>Enrolled Courses</h2>
+    </div>
+
+    <div class="cards-grid">
+        @foreach (var course in Model)
+        {
+            <div class="course-card">
+                <img src="@course.ThumbnailPath" alt="Course Thumbnail" class="course-image" />
+                <div class="course-content">
+                    <h3 class="course-title">@course.Title</h3>
+                    <p class="course-instructor">Instructor: @course.InstructorName</p>
+                    <p class="course-enrolled">Enrolled On: @course.EnrolledOn.ToString("dd MMM yyyy")</p>
+                    <p class="course-status">Payment Status: @course.PaymentStatus</p>
+                    <!--<p class="course-duration">1.49 Hrs</p>--> <!-- Replace with actual duration if available -->
+                    @{
+                        if (@course.PaymentStatus != "Pending")
+                        {
+                            <div class="course-buttons">
+                                <a href="javascript:void(0);" class="btn read-more view-course-btn" data-courseid="@course.CourseId">View Course</a>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('.view-course-btn').on('click', function () {
+            var courseId = $(this).data('courseid');
+            window.location.href = '/Student/ViewCourseDetails?courseId=' + courseId;
+        });
+    });
+</script>

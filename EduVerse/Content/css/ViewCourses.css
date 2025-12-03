@@ -1,0 +1,148 @@
+﻿
+/* ========= General Layout ========= */
+.table-container {
+    background: #fff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow-x: auto; /* enables horizontal scroll on small screens */
+}
+
+    .table-container h2 {
+        font-size: 24px;
+        color: #06BBCC;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* ========= Table Styling ========= */
+    .table-container table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px; /* keeps layout consistent on large screens */
+    }
+
+    .table-container th,
+    .table-container td {
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        text-align: left;
+        font-size: 16px;
+    }
+
+    .table-container thead {
+        background-color: #06BBCC;
+        color: white;
+    }
+
+    .table-container tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table-container tbody tr:hover {
+        background-color: #e3f8fa;
+        transition: 0.3s;
+    }
+
+.create-btn {
+    background-color: #0b5ed7; /* blue */
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+    .create-btn:hover {
+        background-color: #0b5ed7;
+        transform: scale(1.05);
+    }
+
+    .create-btn:active {
+        transform: scale(0.98);
+    }
+
+    .create-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px white;
+    }
+
+
+
+
+
+
+/* ========= Responsive Design ========= */
+/* Tablets */
+@media (max-width: 991px) {
+    .table-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+        .table-container h2 {
+            font-size: 20px;
+            justify-content: center;
+        }
+
+        .table-container table {
+            min-width: 100%;
+            font-size: 14px;
+        }
+
+        .table-container th,
+        .table-container td {
+            padding: 10px;
+        }
+}
+
+/* Mobile Phones */
+@media (max-width: 768px) {
+    .table-container {
+        padding: 10px;
+    }
+
+        .table-container h2 {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* Make table scrollable horizontally */
+        .table-container table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .table-container th,
+        .table-container td {
+            font-size: 13px;
+            padding: 8px;
+        }
+}
+
+/* Very Small Devices */
+@media (max-width: 480px) {
+    .table-container h2 {
+        font-size: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .table-container table {
+        font-size: 12px;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 6px;
+    }
+}
+

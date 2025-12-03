@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Submissions";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<link href="~/Content/css/CommonStyleForTables.css" rel="stylesheet" />
+<script src="~/Scripts/js/Submissions.js"></script>
+
+<div class="table-container">
+    <h2><ion-icon name="book" style="color:black;"></ion-icon>Assignment Submissions</h2>
+
+    <table cellpadding="10" cellspacing="0" class="border">
+        <thead>
+            <tr>
+                <th>Sr.No.</th>
+                <th>Student Name</th>
+                <th>Assessment Title</th>
+                <th>Course</th>
+                <th>Due Date</th>
+                <th>Submission Date</th>
+                <th>File</th>
+                <th>Grade (10 pts)</th>
+                <th>Feedback</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="submissionBody">
+            <tr><td colspan="10" class="text-center">Loading...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+
