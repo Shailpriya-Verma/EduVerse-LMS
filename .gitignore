@@ -1,0 +1,24 @@
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Build folders
+bin/
+obj/
+
+# Cache files
+*.cache
+*.log
+*.tmp
+
+# SQL local DB
+*.mdf
+*.ldf
+
+# Publish profiles
+**/Properties/PublishProfiles/
+
+# OS generated
+*.DS_Store
+Thumbs.db
