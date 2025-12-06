@@ -296,10 +296,7 @@ namespace EduVerse.Controllers
         #endregion
 
         #region EditQuiz
-        public ActionResult AddChanges()
-        {
-            return View();
-        }
+       
         #endregion
 
 
