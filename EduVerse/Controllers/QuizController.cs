@@ -52,6 +52,7 @@ namespace EduVerse.Controllers
                     Random rnd = new Random();
                     string fileName = rnd.Next(1000,9999)+System.IO.Path.GetFileName(model.UploadedFile.FileName);
                     string filePath = System.IO.Path.Combine(folderPath, fileName);
+                    // To save pdf in folder .. currently no need    
                     model.UploadedFile.SaveAs(filePath);
 
                     model.FilePath = "/Content/Uploads/QuizMaterials/" + fileName;
@@ -99,16 +100,16 @@ namespace EduVerse.Controllers
             {
                 extractedText = ExtractTextFromPdf(absolutePath);
             }
-            else if (FileType == ".jpg" || FileType == ".jpeg" || FileType == ".png")
-            {
-                // 🔹 For image-based text, use OCR (optional: Tesseract)
-                extractedText = "This is a placeholder text extracted from image.";
-            }
-            else if (FileType == ".mp4")
-            {
-                // 🔹 For videos, you’d need transcript extraction — optional for now
-                extractedText = "This is a placeholder transcript from video.";
-            }
+            //else if (FileType == ".jpg" || FileType == ".jpeg" || FileType == ".png")
+            //{
+            //    // 🔹 For image-based text, use OCR (optional: Tesseract)
+            //    extractedText = "This is a placeholder text extracted from image.";
+            //}
+            //else if (FileType == ".mp4")
+            //{
+            //    // 🔹 For videos, you’d need transcript extraction — optional for now
+            //    extractedText = "This is a placeholder transcript from video.";
+            //}
             return extractedText;
         }
         #endregion
@@ -150,7 +151,7 @@ namespace EduVerse.Controllers
 
 
                 // Step 2: Ask AI to generate quiz
-                var quizQuestions = await GenerateQuizFromAI(extractedText);
+                var quizQuestions = await GenerateQuizFromGeminiAI(extractedText);
 
                 // Step 3: Return result
                 return Json(new { success = true, message = "Quiz generated successfully!", quiz = quizQuestions });
@@ -162,17 +163,96 @@ namespace EduVerse.Controllers
         }
         #endregion
 
+        //#region GenerateQuizFromOpenAI
+
+        //private async Task<List<QuizQuestionDto>> GenerateQuizFromGroqAI(string textContent)
+        //{
+        //    try
+        //    {
+        //        string apiKey = System.Configuration.ConfigurationManager.AppSettings["Groq_ApiKey"];
+
+        //        using (var client = new HttpClient())
+        //        {
+        //            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+        //            var body = new
+        //            {
+        //                model = "llama-3.1-8b-instant",
+        //                messages = new[]
+        //                {
+        //            new { role = "system", content = "Return ONLY VALID JSON. No explanation. No markdown. No extra text." },
+        //            new { role = "user", content =
+        //                "Generate EXACTLY 5 MCQs ONLY in this JSON format:\n" +
+        //                "[{\"Question\":\"Q1?\",\"OptionA\":\"A\",\"OptionB\":\"B\",\"OptionC\":\"C\",\"OptionD\":\"D\",\"Answer\":\"A\"}]\n\n" +
+        //                "Content:\n" + textContent
+        //            }
+        //        }
+        //            };
+
+        //            var json = JsonConvert.SerializeObject(body);
+        //            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        //            var response = await client.PostAsync("https://api.groq.com/openai/v1/chat/completions", content);
+        //            var respStr = await response.Content.ReadAsStringAsync();
+
+        //            if (!response.IsSuccessStatusCode)
+        //                return new List<QuizQuestionDto>
+        //        {
+        //            new QuizQuestionDto { Question = "Groq API error: " + respStr }
+        //        };
+
+        //            dynamic parsed = JsonConvert.DeserializeObject(respStr);
+        //            string aiText = parsed.choices[0].message.content.ToString().Trim();
+
+        //            //Remove markdown ```json or ``` wrappers
+        //            if (aiText.StartsWith("```"))
+        //            {
+        //                aiText = aiText.Replace("```json", "")
+        //                               .Replace("```", "")
+        //                               .Trim();
+        //            }
+
+        //            //Remove unwanted prefix/suffix text
+        //            int firstBracket = aiText.IndexOf('[');
+        //            int lastBracket = aiText.LastIndexOf(']');
+
+        //            if (firstBracket >= 0 && lastBracket > firstBracket)
+        //            {
+        //                aiText = aiText.Substring(firstBracket, lastBracket - firstBracket + 1);
+        //            }
+
+        //            // 3️⃣ Finally parse JSON
+        //            return JsonConvert.DeserializeObject<List<QuizQuestionDto>>(aiText);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new List<QuizQuestionDto>
+        //{
+        //    new QuizQuestionDto { Question = "Error: " + ex.Message }
+        //};
+        //    }
+        //}
+
+
+        //#endregion GenerateQuizFromOpenAI
+
+
+
+
         #region GenerateQuizFromGemini
-        private async Task<List<object>> GenerateQuizFromAI(string textContent)
+
+        private async Task<List<QuizQuestionDto>> GenerateQuizFromGeminiAI(string textContent)
         {
             try
             {
-                string apiKey = "AIzaSyB58YQtxDbafU7QR4sUn_qrfOzSs9EqyUE";
-                string model = "gemini-1.5-flash";
-                string apiUrl = $"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={apiKey}";
+                string apiKey = System.Configuration.ConfigurationManager
+                                .AppSettings["Gemini_ApiKey"];
 
                 using (var client = new HttpClient())
                 {
+                    client.DefaultRequestHeaders.Add("x-goog-api-key", apiKey);
+
                     var requestBody = new
                     {
                         contents = new[]
@@ -183,102 +263,100 @@ namespace EduVerse.Controllers
                         {
                             new
                             {
-                                text = $"Generate 5 multiple-choice questions with 4 options and correct answers based on this content:\n\n{textContent}\n\n" +
-                                       "Return the output in pure JSON format as an array like this:\n" +
-                                       "[{ \"question\": \"...\", \"options\": [\"A\",\"B\",\"C\",\"D\"], \"answer\": \"...\" }]"
+                                text =
+                                "Return ONLY VALID JSON. No explanation. No markdown.\n\n" +
+                                "Generate EXACTLY 5 MCQs ONLY in this JSON format:\n" +
+                                "[{\"Question\":\"Q1?\",\"OptionA\":\"A\",\"OptionB\":\"B\",\"OptionC\":\"C\",\"OptionD\":\"D\",\"Answer\":\"A\"}]\n\n" +
+                                "Content:\n" + textContent
                             }
                         }
                     }
                 }
                     };
 
-                    var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(apiUrl, content);
-                    var result = await response.Content.ReadAsStringAsync();
+                    var json = JsonConvert.SerializeObject(requestBody);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    string url =
+                        "https://generativelanguage.googleapis.com/v1beta/models/" +
+                        "gemini-2.5-flash:generateContent";
+
+                    var response = await client.PostAsync(url, content);
+                    var respStr = await response.Content.ReadAsStringAsync();
 
                     if (!response.IsSuccessStatusCode)
-                    {
-                        return new List<object>
+                        return new List<QuizQuestionDto>
                 {
-                    new { QuestionText = $"API Error: {response.StatusCode}, Response: {result}" }
+                    new QuizQuestionDto { Question = "Gemini API error: " + respStr }
                 };
-                    }
 
-                    dynamic jsonResponse = JsonConvert.DeserializeObject(result);
-                    string aiOutput = jsonResponse?.candidates?[0]?.content?.parts?[0]?.text?.ToString();
+                    dynamic parsed = JsonConvert.DeserializeObject(respStr);
+                    string aiText = parsed.candidates[0].content.parts[0].text.ToString().Trim();
 
-                    if (string.IsNullOrWhiteSpace(aiOutput))
-                        return new List<object> { new { QuestionText = "No quiz generated. Try again." } };
+                    int firstBracket = aiText.IndexOf('[');
+                    int lastBracket = aiText.LastIndexOf(']');
 
-                    // Clean JSON output if Gemini adds formatting or extra text
-                    aiOutput = aiOutput.Trim();
-                    if (aiOutput.StartsWith("```")) aiOutput = aiOutput.Trim('`').Replace("json", "").Trim();
+                    if (firstBracket >= 0 && lastBracket > firstBracket)
+                        aiText = aiText.Substring(firstBracket, lastBracket - firstBracket + 1);
 
-                    var quizList = JsonConvert.DeserializeObject<List<object>>(aiOutput);
-                    return quizList ?? new List<object> { new { QuestionText = "Error parsing quiz." } };
+                    return JsonConvert.DeserializeObject<List<QuizQuestionDto>>(aiText);
                 }
             }
             catch (Exception ex)
             {
-                return new List<object>
+                return new List<QuizQuestionDto>
         {
-            new { QuestionText = "Error generating quiz: " + ex.Message }
+            new QuizQuestionDto { Question = "Error: " + ex.Message }
         };
             }
         }
-        #endregion
+
+        #endregion GenerateQuizFromGemini
 
 
-        //#region GenerateQuizFromAI
-
-        //private async Task<List<object>> GenerateQuizFromAI(string textContent)
-        //{
-        //    string apiKey = "YOUR_OPENAI_API_KEY"; // 🔒 store securely
-        //    string prompt = $"Generate 5 multiple-choice questions with 4 options each and correct answers based on this content:\n{textContent}";
-
-        //    using (var client = new HttpClient())
-        //    {
-        //        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-
-        //        var requestData = new
-        //        {
-        //            model = "gpt-3.5-turbo",
-        //            messages = new[]
-        //            {
-        //                new { role = "system", content = "You are a quiz generation assistant." },
-        //                new { role = "user", content = prompt }
-        //            },
-        //            temperature = 0.7
-        //        };
-
-        //        var content = new StringContent(JsonConvert.SerializeObject(requestData), Encoding.UTF8, "application/json");
-        //        var response = await client.PostAsync("https://api.openai.com/v1/chat/completions", content);
-
-        //        string result = await response.Content.ReadAsStringAsync();
-
-        //        dynamic json = JsonConvert.DeserializeObject(result);
-        //        string aiOutput = json.choices[0].message.content;
-
-        //        // 🔹 Parse AI output (optional: more structured parsing)
-        //        List<object> quizList = new List<object>
-        //        {
-        //            new { QuestionText = aiOutput }
-        //        };
-
-        //        return quizList;
-        //    }
-        //}
-
-
-        //#endregion GenerateQuizFromAI
 
 
 
         #region SaveQuiz
-        public ActionResult SaveQuiz()
+        [HttpPost]
+        public ActionResult SaveQuiz(SaveQuizRequest model)
         {
-            return View();
+            try
+            {
+                
+                if (Session["UserId"] == null || Session["RoleId"].Equals("3"))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                int instructorId = Convert.ToInt32(Session["UserId"]);
+                QuizBAL bal = new QuizBAL();
+
+                //To Insert main quiz
+                int quizId = bal.cls_InsertQuiz(model.CourseId, model.Title, model.Description, instructorId, model.DurationInMinutes);
+
+                // To Insert all questions With Return QuizId
+                foreach (var q in model.Questions)
+                {
+                    bal.cls_InsertQuizQuestion(
+                        quizId,
+                        q.QuestionText,
+                        q.OptionA,
+                        q.OptionB,
+                        q.OptionC,
+                        q.OptionD,
+                        q.CorrectOption
+                    );
+                }
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
+
         #endregion
 
         #region EditQuiz
@@ -295,10 +373,6 @@ namespace EduVerse.Controllers
         }
         #endregion
 
-        #region EditQuiz
-       
-        #endregion
-
-
+        
     }
 }

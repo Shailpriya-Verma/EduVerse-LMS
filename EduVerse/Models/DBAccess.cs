@@ -64,7 +64,7 @@ namespace EduVerse.Models
                 return res;
             }
 
-            public int InsertUpdateDeleteWithReturnValue(string procedure, SqlParameter[] parameters)
+            public int InsertUpdateDeleteWithOutput(string procedure, SqlParameter[] parameters)
             {
                 using (SqlCommand command = new SqlCommand(procedure, connection))
                 {
@@ -73,9 +73,8 @@ namespace EduVerse.Models
                     if (parameters != null)
                         command.Parameters.AddRange(parameters);
 
-                    // Add return value parameter in one line
                     var returnParam = command.Parameters.Add("@ReturnVal", SqlDbType.Int);
-                    returnParam.Direction = ParameterDirection.ReturnValue;
+                    returnParam.Direction = ParameterDirection.Output;
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -84,6 +83,26 @@ namespace EduVerse.Models
                     return (int)returnParam.Value;
                 }
             }
+        public int InsertUpdateDeleteWithReturnValue(string procedure, SqlParameter[] parameters)
+        {
+            using (SqlCommand command = new SqlCommand(procedure, connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+
+                if (parameters != null)
+                    command.Parameters.AddRange(parameters);
+
+                SqlParameter returnParam = new SqlParameter();
+                returnParam.Direction = ParameterDirection.ReturnValue;
+                command.Parameters.Add(returnParam);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+
+                return (int)(returnParam.Value);
+            }
+        }
 
     }
 

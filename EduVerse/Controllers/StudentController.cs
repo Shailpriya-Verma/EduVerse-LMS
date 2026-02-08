@@ -110,7 +110,6 @@ namespace EduVerse.Controllers
 
                     int paymentResult = paycls.InsertPayment(payment);
 
-                    // (Optional: Handle paymentResult failure if needed)
                 }
 
                 return Json(new

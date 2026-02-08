@@ -32,6 +32,34 @@ namespace EduVerse.Models.BusinessLayer
             return result;
         }
 
+        public int cls_InsertQuiz(int CourseId, string Title, string Description, int CreatedBy, int DurationInMinutes)
+        {
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@CourseId", CourseId),
+                new SqlParameter("@Title", Title),
+                new SqlParameter("@Description", Description),
+                new SqlParameter("@CreatedBy", CreatedBy),
+                new SqlParameter("@DurationInMinutes", DurationInMinutes),
+            };
+            int QuizId=db.InsertUpdateDeleteWithOutput("proc_insert_quiz", param);
+            return QuizId;
+        }
 
+        public int cls_InsertQuizQuestion(int QuizId, string QuestionText, string A, string B, string C, string D, string Correct)
+        {
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@QuizId", QuizId),
+                new SqlParameter("@QuestionText", QuestionText),
+                new SqlParameter("@OptionA", A),
+                new SqlParameter("@OptionB", B),
+                new SqlParameter("@OptionC", C),
+                new SqlParameter("@OptionD", D),
+                new SqlParameter("@CorrectOption", Correct)
+            };
+
+            return db.InsertUpdateDelete("proc_insert_quiz_question", param);
+        }
     }
 }
