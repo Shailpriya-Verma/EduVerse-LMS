@@ -27,6 +27,7 @@ namespace EduVerse.Models.Allclasses
             public string InstructorName { get; set; }
             public DateTime EnrolledOn { get; set; }
             public string PaymentStatus { get; set; }
+            public decimal? Price { get; set; }
 
             // hold multiple materials
             public List<CourseMaterialModel> Materials { get; set; }
@@ -40,5 +41,16 @@ namespace EduVerse.Models.Allclasses
             public string MaterialType { get; set; }
         }
 
+
+        public class CourseCategoryModel
+        {
+            public int CategoryID { get; set; }
+
+            public string CategoryName { get; set; }
+
+            public string Thumbnail { get; set; }
+            public int CourseCount { get; set; }
+        }
+        
     }
 }

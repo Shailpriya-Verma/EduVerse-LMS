@@ -17,7 +17,23 @@ namespace EduVerse.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
+            DataTable dt = cls.cls_GetCount();
+            ViewBag.count_courses = dt.Rows[0][0];
+            ViewBag.count_student = dt.Rows[0][1];
+            ViewBag.count_instructor = dt.Rows[0][2];
 
+            DataTable dt2=cls.cls_GetCategories();
+            List<CourseCategoryModel> categories = new List<CourseCategoryModel>();
+            foreach(DataRow row in dt2.Rows)
+            {
+                CourseCategoryModel m = new CourseCategoryModel();
+                m.CategoryID = Convert.ToInt32(row["CategoryId"]);
+                m.CategoryName = row["CategoryName"].ToString();
+                m.Thumbnail = row["ThumbNail"].ToString();
+                m.CourseCount = Convert.ToInt32(row["Course_Count"]);
+                categories.Add(m);
+            }
+            ViewBag.clist= categories;
             return View();
         }
 

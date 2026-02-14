@@ -8,6 +8,8 @@
 <link href="~/Content/css/Courses.css" rel="stylesheet" />
 <script src="~/Scripts/js/jquery-3.2.1.min.js"></script>
 <script src="~/Scripts/js/sweetalert2.min.js"></script>
+@*for razorpay*@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <div class="course-section">
     <div class="section-title">
@@ -24,14 +26,47 @@
                     <p class="course-instructor">Instructor: @course.InstructorName</p>
                     <p class="course-enrolled">Enrolled On: @course.EnrolledOn.ToString("dd MMM yyyy")</p>
                     <p class="course-status">Payment Status: @course.PaymentStatus</p>
-                    <!--<p class="course-duration">1.49 Hrs</p>--> <!-- Replace with actual duration if available -->
-                    @{
-                        if (@course.PaymentStatus != "Pending")
+                    <!--<p class="course-duration">1.49 Hrs</p>--> <!-- Replace with actual duration -->
+                    @*@if (course.PaymentStatus != "Pending")
                         {
                             <div class="course-buttons">
                                 <a href="javascript:void(0);" class="btn read-more view-course-btn" data-courseid="@course.CourseId">View Course</a>
                             </div>
                         }
+                        @if (course.PaymentStatus == "Pending")
+                        {
+                            <div class="course-buttons">
+                                <a href="javascript:void(0);" id="payBtn" class="btn read-more" data-courseid="@course.CourseId">Pay</a>
+
+                            </div>
+                            <span style="font-size:12px;">Complete payment to view course</span>
+                        }*@
+
+
+                    @if (course.PaymentStatus == "Paid" || course.PaymentStatus == "Free")
+                    {
+                        <div class="course-buttons">
+                            <a href="javascript:void(0);"
+                               class="btn read-more view-course-btn"
+                               data-courseid="@course.CourseId">
+                                View Course
+                            </a>
+                        </div>
+                    }
+                    else if (course.PaymentStatus == "Pending")
+                    {
+                        <div class="course-buttons">
+                            <a href="javascript:void(0);"
+                               class="btn read-more pay-now-btn"
+                               data-courseid="@course.CourseId"
+                               data-amount="@course.Price"
+                               data-title="@course.Title">
+                                Pay Now
+                            </a>
+                        </div>
+                        <span style="font-size:12px;color:red;">
+                            Complete payment to access course
+                        </span>
                     }
 
                 </div>
@@ -48,5 +83,64 @@
             var courseId = $(this).data('courseid');
             window.location.href = '/Student/ViewCourseDetails?courseId=' + courseId;
         });
+
     });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $('.pay-now-btn').click(function () {
+            var courseId = $(this).data('courseid');
+            var amount = $(this).data('amount');
+            var title = $(this).data('title');
+
+            $.ajax({
+                url: '/Student/CreatePayment',
+                type: 'POST',
+                data: { courseId: courseId },
+                success: function (res) {
+
+                    if (!res.success) {
+                        alert(res.message);
+                        return;
+                    }
+
+                    openRazorpay(res.TransactionId, courseId, amount, title);
+                }
+            });
+        });
+
+    });
+
+    function openRazorpay(transactionId, courseId, amount, title) {
+        var options = {
+            "key": "rzp_test_MlCdj8h0dVktaf",
+            "amount": amount * 100,
+            "currency": "INR",
+            "name": "EduVerse",
+            "description": "Enroll for " + title,
+            "handler": function (response) {
+
+                $.ajax({
+                    url: '/Student/VerifyPayment',
+                    type: 'POST',
+                    data: {
+                        transactionId: transactionId,
+                        courseId: courseId
+                    },
+                    success: function () {
+                        alert("Payment successful!");
+                        location.reload();
+                    }
+                });
+            },
+            "theme": {
+                "color": "#06BBCC"
+            }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+    }
 </script>

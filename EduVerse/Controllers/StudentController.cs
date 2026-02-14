@@ -95,7 +95,7 @@ namespace EduVerse.Controllers
                 string transactionId = null;
 
                 // If course is paid, create a pending payment entry
-                if (isPaid)
+                if (isPaid && enrollResult == 1)
                 {
                     transactionId = Guid.NewGuid().ToString();
 
@@ -129,38 +129,40 @@ namespace EduVerse.Controllers
 
 
 
-        #region EnrolledCourse
-        public ActionResult EnrolledCourses()
+
+
+
+
+        [HttpPost]
+        public ActionResult CreatePayment(int courseId)
         {
-            if (Session["UserId"] == null || Session["RoleId"].Equals("2"))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                int studentId = Convert.ToInt32(Session["UserId"]);
+
+                string transactionId = Guid.NewGuid().ToString();
+
+                PaymentModel payment = new PaymentModel
+                {
+                    UserId = studentId,
+                    CourseId = courseId,
+                    TransactionId = transactionId,
+                    PaymentStatus = "Pending"
+                };
+
+                paycls.InsertPayment(payment);
+
+                return Json(new
+                {
+                    success = true,
+                    TransactionId = transactionId
+                });
             }
-
-            int studentId = Convert.ToInt32(Session["UserId"]);
-            ViewBag.Title = "Courses";
-
-            DataTable dt = cls.cls_GetCoursesByStudentId(studentId);
-            List<GetAllCourseByStudentIdModel> list = new List<GetAllCourseByStudentIdModel>();
-
-            foreach (DataRow data in dt.Rows)
+            catch (Exception ex)
             {
-                GetAllCourseByStudentIdModel obj = new GetAllCourseByStudentIdModel();
-                obj.CourseId = Convert.ToInt32(data["CourseId"]);
-                obj.Title = data["Title"].ToString();
-                obj.ThumbnailPath = data["Thumbnail"].ToString();
-                obj.InstructorName = data["InstructorName"].ToString();
-                obj.EnrolledOn = Convert.ToDateTime(data["EnrolledOn"]);
-                obj.PaymentStatus = data["PaymentStatus"].ToString();
-
-                list.Add(obj);
+                return Json(new { success = false, message = ex.Message });
             }
-
-            return View(list);
         }
-
-        #endregion EnrollCourse
-
 
 
         #region VerifyPayment
@@ -206,10 +208,43 @@ namespace EduVerse.Controllers
         #endregion VerifyPayment
 
 
+        #region EnrolledCourse
+        public ActionResult EnrolledCourses()
+        {
+            if (Session["UserId"] == null || Session["RoleId"].Equals("2"))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            int studentId = Convert.ToInt32(Session["UserId"]);
+            ViewBag.Title = "Courses";
+
+            DataTable dt = cls.cls_GetCoursesByStudentId(studentId);
+            List<GetAllCourseByStudentIdModel> list = new List<GetAllCourseByStudentIdModel>();
+
+            foreach (DataRow data in dt.Rows)
+            {
+                GetAllCourseByStudentIdModel obj = new GetAllCourseByStudentIdModel();
+                obj.CourseId = Convert.ToInt32(data["CourseId"]);
+                obj.Title = data["Title"].ToString();
+                obj.ThumbnailPath = data["Thumbnail"].ToString();
+                obj.InstructorName = data["InstructorName"].ToString();
+                obj.EnrolledOn = Convert.ToDateTime(data["EnrolledOn"]);
+                obj.PaymentStatus = data["PaymentStatus"].ToString();
+                obj.Price = data["Amount"] == DBNull.Value ? (decimal?)null
+                        : Convert.ToDecimal(data["Amount"]);
+                list.Add(obj);
+            }
+
+            return View(list);
+        }
+
+        #endregion EnrolledCourse
+
 
 
         #region ViewEnrollCourse
-        
+
         public ActionResult ViewCourseDetails(int courseId)
         {
             if (Session["UserId"] == null || Session["RoleId"].Equals("2"))
@@ -235,6 +270,8 @@ namespace EduVerse.Controllers
             model.PaymentStatus = header["PaymentStatus"].ToString();
             model.ThumbnailPath = header["ThumbnailPath"].ToString();
             model.Description = header["Description"].ToString();
+            
+
 
             // loop through all materials
             foreach (DataRow row in dt.Rows)
@@ -259,7 +296,7 @@ namespace EduVerse.Controllers
 
 
 
-        #region EnrolledCourse
+        #region CourseDetails
         public ActionResult CourseDetails()
         {
             if (Session["UserId"] == null || Session["RoleId"].Equals("2"))
@@ -270,7 +307,7 @@ namespace EduVerse.Controllers
             return View();
         }
 
-        #endregion EnrollCourse
+        #endregion CourseDetails
 
 
         #region Assignment
@@ -307,7 +344,7 @@ namespace EduVerse.Controllers
                     DueDate = Convert.ToDateTime(row["DueDate"]).ToString("dd-MM-yyyy"),
                     CreatedAt = Convert.ToDateTime(row["CreatedAt"]).ToString("dd-MM-yyyy"),
                     FilePath = row["FilePath"].ToString(),
-                    IsSubmitted = row["SubmissionId"] != DBNull.Value, // true if already submitted
+                    IsSubmitted = row["IsSubmitted"] != DBNull.Value,
                     Grade = row["Grade"] == DBNull.Value ? "" : row["Grade"].ToString(),
                     Feedback = row["Feedback"] == DBNull.Value ? "" : row["Feedback"].ToString()
                 });

@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="~/Content/img/logo2.png" rel="icon">
+    <link href="@Url.Content("~/Content/img/Book_icon.ico")" rel="icon" type="image/x-icon">
 
 
 
@@ -74,8 +74,11 @@
 
 
 
+                @if (Session["RoleId"] == null)
+                {
+                    <a href="~/Account/Register" class="nav-item nav-link">Register </a>
+                }
 
-                <a href="~/Account/Register" class="nav-item nav-link">Register </a>
                 <a href="~/Account/Login" class="nav-item nav-link">Login <i class="fa fa-arrow-right ms-2"></i></a>
 
                 <!-- dropdown creation for Goggle translate start -->

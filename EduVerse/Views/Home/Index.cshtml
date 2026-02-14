@@ -3,9 +3,11 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
+@using EduVerse.Models.Allclasses;
+
 
 <!-- Carousel Start -->
-<div class="container-fluid p-0 mb-5">
+<!--<div class="container-fluid p-0 mb-5">
     <div class="owl-carousel header-carousel position-relative">
         <div class="owl-carousel-item position-relative">
             <img class="img-fluid" src="/Content/img/carousel-1.jpg" alt="">
@@ -40,10 +42,82 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- Carousel End -->
+<!-- HERO START -->
+<div class="container-fluid p-0 mb-5">
+    <div class="position-relative">
+
+        <img class="img-fluid w-100" src="/Content/img/carousel-1.jpg" alt="Hero Image">
+
+        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+             style="background: rgba(24, 29, 56, .75);">
+
+            <div class="container">
+                <div class="row justify-content-start">
+                    <div class="col-lg-8">
+
+                        <h4 class="text-primary text-uppercase mb-3">
+                            Welcome to EduVerse
+                        </h4>
+
+                        <h1 class="display-4 text-white fw-bold mb-3">
+                            Learn Smarter..
+                            <br>Build Real Skills
+                        </h1>
+
+                        <p class="fs-5 text-white mb-4">
+                            Master in-demand technologies with expert instructors,
+                            real-world projects, and structured learning paths —
+                            all in one powerful LMS platform.
+                        </p>
+
+                        <a href="~/Home/Courses"
+                           class="btn btn-primary py-md-3 px-md-5 me-3">
+                            Explore Courses
+                        </a>
+
+                        <a href="~/Account/Register"
+                           class="btn btn-outline-light py-md-3 px-md-5">
+                            Become an Instructor
+                        </a>
+
+                        <!-- Small Stats -->
+                        <div class="row mt-4 text-white stats-section">
+
+                            <div class="col-4">
+                                <h5 class="fw-bold mb-0 text-primary">
+                                    <span class="counter" data-target="@ViewBag.count_courses">0</span>+
+                                </h5>
+                                <small>Courses</small>
+                            </div>
+
+                            <div class="col-4">
+                                <h5 class="fw-bold mb-0 text-primary">
+                                    <span class="counter" data-target="@ViewBag.count_student">0</span>+
+                                </h5>
+                                <small>Students</small>
+                            </div>
+
+                            <div class="col-4">
+                                <h5 class="fw-bold mb-0 text-primary">
+                                    <span class="counter" data-target="@ViewBag.count_instructor">0</span>+
+                                </h5>
+                                <small>Instructors</small>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- HERO END -->
 <!-- Service Start -->
-<div class="container-xxl py-5">
+<!--<div class="container-xxl py-5">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -84,51 +158,73 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- Service End -->
-
-
-
-<!-- About Start -->
-<!--<div class="container-xxl py-5">
+<!-- Service Start -->
+<div class="container-xxl py-5">
     <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
-                <div class="position-relative h-100">
-                    <img class="img-fluid position-absolute w-100 h-100" src="/Content/img/about.jpg" alt="" style="object-fit: cover;">
-                </div>
-            </div>
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 class="mb-4">Welcome to eLEARNING</h1>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                <div class="row gy-2 gx-4 mb-4">
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
+        <div class="row g-4">
+
+            <!-- Expert Instructors -->
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="service-item text-center pt-3 h-100">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-chalkboard-teacher text-primary mb-4"></i>
+                        <h5 class="mb-3">Expert Instructors</h5>
+                        <p>
+                            Learn from experienced industry professionals who bring
+                            real-world knowledge and practical insights to every course.
+                        </p>
                     </div>
                 </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
             </div>
+
+            <!-- Flexible Online Learning -->
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="service-item text-center pt-3 h-100">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-laptop text-primary mb-4"></i>
+                        <h5 class="mb-3">Flexible Online Learning</h5>
+                        <p>
+                            Access courses anytime, anywhere with structured lessons,
+                            video tutorials, and downloadable learning resources.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments & Assessments -->
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="service-item text-center pt-3 h-100">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-tasks text-primary mb-4"></i>
+                        <h5 class="mb-3">Assignments & Assessments</h5>
+                        <p>
+                            Test your knowledge through quizzes, assignments,
+                            and real-time grading to track your learning progress.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community & Support -->
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="service-item text-center pt-3 h-100">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-comments text-primary mb-4"></i>
+                        <h5 class="mb-3">Community & Support</h5>
+                        <p>
+                            Engage in discussion forums, ask questions,
+                            and collaborate with peers for a better learning experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-</div>-->
-<!-- About End -->
+</div>
+<!-- Service End -->
 
 
 
@@ -142,48 +238,73 @@
         <div class="row g-3">
             <div class="col-lg-7 col-md-6">
                 <div class="row g-3">
-                    <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
-                        <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="/Content/img/cat-1.jpg" alt="">
-                            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                <h5 class="m-0">Web Design</h5>
-                                <small class="text-primary">49 Courses</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                        <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="/Content/img/cat-2.jpg" alt="">
-                            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                <h5 class="m-0">Graphic Design</h5>
-                                <small class="text-primary">49 Courses</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                        <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="/Content/img/cat-3.jpg" alt="">
-                            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                <h5 class="m-0">Video Editing</h5>
-                                <small class="text-primary">49 Courses</small>
-                            </div>
-                        </a>
-                    </div>
+                    @{
+                        var list = ViewBag.clist as List<CoursesModel.CourseCategoryModel>;
+                    }
+
+                    @if (list != null)
+                    {
+                        for (int i = 0; i < list.Count && i < 3; i++)
+                        {
+                            if (i == 0)
+                            {
+                                <!-- Big -->
+                                <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                                    <a class="position-relative d-block overflow-hidden" href="">
+                                        <img class="img-fluid" src="@Url.Content("~/Content/Categories/" + list[i].Thumbnail)" />
+                                        <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3">
+                                            <h5 class="m-0">@list[i].CategoryName</h5>
+                                            <small class="text-primary">@list[i].CourseCount <span>Courses</span></small>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <!-- Small -->
+                                <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                                    <a class="position-relative d-block overflow-hidden" href="">
+                                        <img class="img-fluid" src="@Url.Content("~/Content/Categories/" + list[i].Thumbnail)" />
+                                        <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3">
+                                            <h5 class="m-0">@list[i].CategoryName</h5>
+                                            <small class="text-primary">@list[i].CourseCount <span>Courses</span>
+                                            </small>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        }
+                    }
+
                 </div>
             </div>
-            <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
-                <a class="position-relative d-block h-100 overflow-hidden" href="">
-                    <img class="img-fluid position-absolute w-100 h-100" src="/Content/img/cat-4.jpg" alt="" style="object-fit: cover;">
-                    <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
-                        <h5 class="m-0">Online Marketing</h5>
-                        <small class="text-primary">49 Courses</small>
-                    </div>
-                </a>
-            </div>
+            @if (list != null && list.Count > 3)
+            {
+                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height:350px;">
+                    <a class="position-relative d-block h-100 overflow-hidden" href="">
+                        <img class="img-fluid position-absolute w-100 h-100"
+                             src="@Url.Content("~/Content/Categories/" + list[3].Thumbnail)"
+                             style="object-fit:cover;" />
+                        <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3">
+                            <h5 class="m-0">@list[3].CategoryName</h5>
+                            <small class="text-primary">@list[3].CourseCount <span>Courses</span>
+                            </small>
+                        </div>
+                    </a>
+                </div>
+            }
+
+            <a href="#" class="btn btn-outline-primary">
+                View All Categories
+            </a>
         </div>
     </div>
 </div>
 <!-- Categories Start -->
+
+
+
+
 <!-- Courses Start -->
 <div class="container-xxl py-5">
     <div class="container">
@@ -205,11 +326,11 @@
                         <h3 class="mb-0">₹1000</h3>
                         <div class="mb-3">
                             @*<small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(123)</small>*@
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small>(123)</small>*@
                         </div>
                         <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
                     </div>
@@ -233,11 +354,11 @@
                         <h3 class="mb-0">₹1049.00</h3>
                         <div class="mb-3">
                             @*<small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(123)</small>*@
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small>(123)</small>*@
                         </div>
                         <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
                     </div>
@@ -261,11 +382,11 @@
                         <h3 class="mb-0">Free</h3>
                         <div class="mb-3">
                             @*<small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(123)</small>*@
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small>(123)</small>*@
                         </div>
                         <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
                     </div>
@@ -294,12 +415,12 @@
                         <img class="img-fluid" src="/Content/img/team-1.jpg" alt="">
                     </div>
                     @*<div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>*@
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>*@
                     <div class="text-center p-4">
                         <h5 class="mb-0">Instructor Name</h5>
                         <small>Designation</small>
@@ -312,12 +433,12 @@
                         <img class="img-fluid" src="/Content/img/team-2.jpg" alt="">
                     </div>
                     @*<div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>*@
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>*@
                     <div class="text-center p-4">
                         <h5 class="mb-0">Instructor Name</h5>
                         <small>Designation</small>
@@ -330,12 +451,12 @@
                         <img class="img-fluid" src="/Content/img/team-3.jpg" alt="">
                     </div>
                     @*<div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>*@
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>*@
                     <div class="text-center p-4">
                         <h5 class="mb-0">Instructor Name</h5>
                         <small>Designation</small>
@@ -348,12 +469,12 @@
                         <img class="img-fluid" src="/Content/img/team-4.jpg" alt="">
                     </div>
                     @*<div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>*@
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>*@
                     <div class="text-center p-4">
                         <h5 class="mb-0">Instructor Name</h5>
                         <small>Designation</small>
@@ -364,11 +485,8 @@
     </div>
 </div>
 <!-- Team End -->
-
-
-
-<!-- Testimonial Start -->
-<!--<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+Testimonial Start -->
+<!-- <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
         <div class="text-center">
             <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
@@ -409,5 +527,41 @@
             </div>
         </div>
     </div>
-</div>-->
-<!-- Testimonial End -->
+</div>
+ Testimonial End -->
+<!-- Animation counts when screnn visible -->
+<script>
+    const counters = document.querySelectorAll('.counter');
+    const statsSection = document.querySelector('.stats-section');
+
+    let started = false;
+
+    const startCounter = () => {
+        counters.forEach(counter => {
+            const updateCounter = () => {
+                const target = +counter.getAttribute('data-target');
+                const current = +counter.innerText;
+                const increment = target / 100;
+
+                if (current < target) {
+                    counter.innerText = Math.ceil(current + increment);
+                    setTimeout(updateCounter, 20);
+                } else {
+                    counter.innerText = target.toLocaleString();
+                }
+            };
+            updateCounter();
+        });
+    };
+
+    const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !started) {
+            startCounter();
+            started = true; // run only once
+        }
+    }, { threshold: 0.5 });
+
+    observer.observe(statsSection);
+</script>
+
+

@@ -65,9 +65,11 @@
                 success: function (response) {
                     if (response.success) {
                         if (isPaid && response.res === 1) {
+
+                            alert(response.message);
                             // Razorpay Checkout
                             var options = {
-                                "key": "rzp_test_MlCdj8h0dVktaf", // Replace with live key in production
+                                "key": "rzp_test_MlCdj8h0dVktaf", 
                                 "amount": amount * 100, // in paise
                                 "currency": "INR",
                                 "name": "EduVerse",
@@ -119,86 +121,3 @@
 </script>
 
 
-
-
-
-
-
-
-
-
-@*<script>
-    $(document).ready(function () {
-
-        $(document).ready(function () {
-            $('.enroll').click(function () {
-                var courseId = $(this).data('courseid');
-                var amount = $(this).data('amount');
-                var isPaid = amount > 0;
-
-                var confirmEnroll = confirm(isPaid ?
-                    "This is a paid course. Do you want to enroll?" :
-                    "Do you want to enroll in this course?");
-
-                if (!confirmEnroll) return;
-
-                $.ajax({
-                    url: '/Student/EnrollCourse',
-                    type: 'POST',
-                    data: {
-                        courseId: courseId,
-                        isPaid: isPaid,
-                        amount: amount
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            if (isPaid && response.res === 1) {
-                                // Razorpay options
-                                var options = {
-                                    "key": "rzp_test_MlCdj8h0dVktaf", // Replace with your Razorpay key
-                                    "amount": amount * 100, // Amount in paise
-                                    "currency": "INR",
-                                    "name": "EduVerse",
-                                    "description": "Course Enrollment",
-                                    "handler": function (rzpResponse) {
-                                        // Send payment confirmation to server
-                                        $.ajax({
-                                            url: '/Student/VerifyPayment',
-                                            type: 'POST',
-                                            data: {
-                                                transactionId: response.transactionId,
-                                                //razorpay_payment_id: rzpResponse.razorpay_payment_id,
-                                                courseId: courseId
-                                            },
-                                            success: function (verifyRes) {
-                                                alert("Payment successful and verified!");
-                                            },
-                                            error: function () {
-                                                alert("Payment succeeded but server verification failed.");
-                                            }
-                                        });
-                                    }
-                                };
-                                var rzp = new Razorpay(options);
-                                rzp.open();
-                            } else if (response.res === -1) {
-                                alert("You are already enrolled in this course.");
-                            } else {
-                                alert(response.message); // Free course enrolled
-                            }
-                        } else {
-                            alert("Enrollment failed: " + response.message);
-                        }
-                    },
-                    error: function () {
-                        alert("Server error. Please try again.");
-                    }
-                });
-            });
-        });
-
-
-
-    });
-
-</script>*@

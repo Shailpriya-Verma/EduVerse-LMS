@@ -83,7 +83,22 @@ namespace EduVerse.Models.BusinessLayer
             return res;
         }
 
-        
 
+        public DataTable cls_GetCount()
+        {
+            SqlParameter[] parameter = new SqlParameter[]
+            {
+            };
+            DataTable table = db.SelectData("proc_GetCount", parameter);
+            return table;
+        }
+        public DataTable cls_GetCategories()
+        {
+            SqlParameter[] parameter = new SqlParameter[]
+            {
+            };
+            DataTable table = db.SelectData("proc_GetTopCategories", parameter);
+            return table;
+        }
     }
 }
